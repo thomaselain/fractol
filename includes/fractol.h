@@ -6,7 +6,7 @@
 /*   By: telain <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/19 17:37:02 by telain            #+#    #+#             */
-/*   Updated: 2016/06/01 17:09:53 by telain           ###   ########.fr       */
+/*   Updated: 2016/06/06 20:42:56 by telain           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,30 @@
 
 typedef struct	s_env
 {
-	void		*mlx;
-	void		*win;
-	int			win_x;
-	int			win_y;
-	int			depth;
-	int			zoom_x;
-	int			zoom_y;
+	unsigned long	color;
+	void			*mlx;
+	void			*win;
+	void			*img;
+	int				bpp;
+	int				sl;
+	int				endi;
+	char			*data;
+	int				win_x;
+	int				win_y;
+	int				depth;
+	int				zoom_x;
+	int				zoom_y;
+	int				x;
+	int				y;
+	int				r;
+	int				g;
+	int				b;
 }				t_env;
 
 # include <fcntl.h>
 # include <math.h>
 # include "../includes/libft.h"
 # include "mlx.h"
-# define BLACK 0x000000
-# define DARKBLUE 0x03224c
-# define LIGHTBLUE 0x0131b4
-# define YELLOW 0xf6dc12
-# define GREEN 0x3a9d23
-# define BROWN 0x88421d
-# define WHITE 0xffffff
 # define WIN_X 800
 # define WIN_Y 600
 # define X1 -2
@@ -42,6 +46,10 @@ typedef struct	s_env
 # define Y1 -1.25
 # define Y2 1.25
 
+void			pixel_put(t_env *e, int x, int y, int color);
 void			draw(t_env *e);
+int				choose_color(double i,  t_env *e);
 void			do_input(t_env *e, int key);
+void			is_fractal(int x, int y, t_env *e);
+
 #endif
