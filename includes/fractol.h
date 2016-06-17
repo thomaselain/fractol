@@ -6,7 +6,7 @@
 /*   By: telain <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/19 17:37:02 by telain            #+#    #+#             */
-/*   Updated: 2016/06/06 20:42:56 by telain           ###   ########.fr       */
+/*   Updated: 2016/06/17 15:16:20 by telain           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,27 @@
 
 typedef struct	s_env
 {
-	unsigned long	color;
 	void			*mlx;
 	void			*win;
 	void			*img;
+	char			*data;
 	int				bpp;
 	int				sl;
 	int				endi;
-	char			*data;
 	int				win_x;
 	int				win_y;
-	int				depth;
-	int				zoom_x;
-	int				zoom_y;
+	double			depth;
+	double			zoom;
 	int				x;
 	int				y;
 	int				r;
 	int				g;
 	int				b;
+	double			place_x;
+	double			place_y;
 }				t_env;
+
+#include <stdio.h>
 
 # include <fcntl.h>
 # include <math.h>
@@ -41,10 +43,8 @@ typedef struct	s_env
 # include "mlx.h"
 # define WIN_X 800
 # define WIN_Y 600
-# define X1 -2
-# define X2 1.25
-# define Y1 -1.25
-# define Y2 1.25
+# define X1 0.72
+# define Y1 0.11
 
 void			pixel_put(t_env *e, int x, int y, int color);
 void			draw(t_env *e);

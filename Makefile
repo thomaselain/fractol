@@ -6,11 +6,11 @@
 #    By: telain <telain@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/03/22 17:19:39 by telain            #+#    #+#              #
-#    Updated: 2016/06/06 22:08:55 by telain           ###   ########.fr        #
+#    Updated: 2016/06/15 17:26:55 by telain           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = fract_ol
+NAME = fractol
 PATH_SRC = src/
 PATH_INC = ./libft/includes/
 
