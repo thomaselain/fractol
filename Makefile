@@ -6,7 +6,7 @@
 #    By: telain <telain@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/03/22 17:19:39 by telain            #+#    #+#              #
-#    Updated: 2016/06/15 17:26:55 by telain           ###   ########.fr        #
+#    Updated: 2016/06/18 15:10:04 by telain           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ FLAGS = -Wall -Wextra -Werror
 HEAD = includes/fdf.h
 
 SRC = main.c\
-	  draw.c\
+	  fractal.c\
 	  input.c\
 
 OBJ = $(patsubst %.c,%.o,$(addprefix $(PATH_SRC), $(SRC)))

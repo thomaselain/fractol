@@ -6,26 +6,27 @@
 /*   By: telain <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/01 17:05:10 by telain            #+#    #+#             */
-/*   Updated: 2016/06/17 18:54:02 by telain           ###   ########.fr       */
+/*   Updated: 2016/06/19 01:49:11 by telain           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fractol.h"
 
-int		write_zoom(void)
+void	choose_fractal(t_env *e)
 {
-	char	*line;
-
-	get_next_line(0, &line);
-	return (ft_atoi(line));
+	if (ft_strcmp(e->fractal, "julia") == 0)
+		e->fractal = "mandelbrot";
+	else if (ft_strcmp(e->fractal, "mandelbrot") == 0)
+		e->fractal = "julia";
+	e->zoom = WIN_X / 4;
+	e->depth = 10;
 }
 
 void	do_input(t_env *e, int key)
 {
 	if (key == 53)
 		exit(0);
-	(key == 36) ? e->depth = write_zoom() : key;
-	(key == 36) ? e->zoom = e->zoom : key;
+	(key == 36) ? choose_fractal(e) : key;
 	(key == 123) ? e->place_x -= (double)WIN_X / e->zoom / 8 : key;
 	(key == 124) ? e->place_x += (double)WIN_X / e->zoom / 8 : key;
 	(key == 125) ? e->place_y += (double)WIN_Y / e->zoom / 8 : key;

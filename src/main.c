@@ -6,7 +6,7 @@
 /*   By: telain <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/19 17:37:22 by telain            #+#    #+#             */
-/*   Updated: 2016/06/17 19:11:58 by telain           ###   ########.fr       */
+/*   Updated: 2016/06/19 01:48:26 by telain           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		refresh(void *e)
 {
-	draw(e);
+	draw_window(e);
 	return (0);
 }
 
@@ -24,6 +24,11 @@ void	change_input(t_env *e, int x, int y, int fct)
 	{
 		e->x = x;
 		e->y = y;
+		if (ft_strcmp("julia", e->fractal) == 0)
+		{
+			e->r_julia = (x - (double)WIN_X / 2) / 200;
+			e->i_julia = (y - (double)WIN_Y / 2) / 200;
+		}
 	}
 	else if (fct == 1)
 	{
@@ -58,7 +63,6 @@ int		find_key(int key, void *e)
 	{
 		do_input(e, key);
 	}
-
 	return (key);
 }
 
@@ -77,7 +81,7 @@ void	new_env(t_env *e)
 	e->mlx = mlx_init();
 	e->win = mlx_new_window(e->mlx, WIN_X, WIN_Y, "Fractol_42");
 	e->img = mlx_new_image(e->mlx, WIN_X, WIN_Y);
-	e->depth = 5;
+	e->depth = 10;
 	e->zoom = WIN_X / 4;
 	e->place_x = 0;
 	e->place_y = 0;
@@ -91,14 +95,17 @@ int		main(int ac, char **av)
 
 	y = 0;
 	x = 0;
-	if (ac != 1)
+	if (ac != 2 || (ft_strcmp(av[1], "mandelbrot") != 0 &&
+				ft_strcmp(av[1], "julia") != 0))
 	{
-		if (av)
-			;
-		ft_putstr("Usage : ./fractol\n");
+		if (ac != 2)
+			ft_putstr("Usage : ./fractol <\e[32mFractal_name\e[0m>\n");
+		else
+			ft_putstr("//\tPlease put an existant fractal name\t\\\\\n");
 		return (0);
 	}
 	new_env(&e);
+	e.fractal = av[1];
 	mlx_key_hook(e.win, find_key, &e);
 	mlx_mouse_hook(e.win, button_pressed, &e);
 	mlx_hook(e.win, 6, (1L << 6), find_mouse, &e);
