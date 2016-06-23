@@ -6,22 +6,22 @@
 #    By: telain <telain@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/03/22 17:19:39 by telain            #+#    #+#              #
-#    Updated: 2016/06/18 15:10:04 by telain           ###   ########.fr        #
+#    Updated: 2016/06/23 19:33:22 by telain           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fractol
 PATH_SRC = src/
-PATH_INC = ./libft/includes/
+PATH_INC = includes/
 
 CC = gcc
 FLAGS = -Wall -Wextra -Werror
 
-HEAD = includes/fdf.h
-
 SRC = main.c\
 	  fractal.c\
 	  input.c\
+	  help_display.c\
+	  draw.c\
 
 OBJ = $(patsubst %.c,%.o,$(addprefix $(PATH_SRC), $(SRC)))
 
@@ -30,7 +30,7 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	@make -C libft/
 	@printf "Compiling $(NAME) ...\n"
-	@$(CC) $(FLAGS) -o $(NAME) $(OBJ) -lm -L libft/ -lft -lmlx -framework OpenGL -framework AppKit
+	@$(CC) $(FLAGS) -o  $(NAME) $(OBJ) -lm -L libft/ -lft -lmlx -framework OpenGL -framework AppKit
 	@printf "fractol compiled\n"
 
 %.o: %.c

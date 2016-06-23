@@ -6,74 +6,17 @@
 /*   By: telain <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/19 17:37:22 by telain            #+#    #+#             */
-/*   Updated: 2016/06/19 01:48:26 by telain           ###   ########.fr       */
+/*   Updated: 2016/06/23 23:03:40 by telain           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fractol.h"
-
-int		refresh(void *e)
-{
-	draw_window(e);
-	return (0);
-}
-
-void	change_input(t_env *e, int x, int y, int fct)
-{
-	if (fct == 0)
-	{
-		e->x = x;
-		e->y = y;
-		if (ft_strcmp("julia", e->fractal) == 0)
-		{
-			e->r_julia = (x - (double)WIN_X / 2) / 200;
-			e->i_julia = (y - (double)WIN_Y / 2) / 200;
-		}
-	}
-	else if (fct == 1)
-	{
-		e->zoom *= 1.5;
-		e->place_x -= ((double)WIN_X / 2 - x) / e->zoom;
-		e->place_y -= ((double)WIN_Y / 2 - y) / e->zoom;
-	}
-	else if (fct == 2)
-	{
-		e->zoom /= 1.5;
-	}
-}
-
-int		button_pressed(int button, int x, int y, void *e)
-{
-	if (x >= 0 && y >= 0 && x <= WIN_X && y <= WIN_Y)
-		change_input(e, x, y, button);
-	return (0);
-}
 
 int		find_mouse(int x, int y, void *e)
 {
 	if (x >= 0 && y >= 0 && x <= WIN_X && y <= WIN_Y)
 		change_input(e, x, y, 0);
 	return (0);
-}
-
-int		find_key(int key, void *e)
-{
-	if (key == 53 || key == 125 || key == 126 || key == 69 || key == 78 ||
-			key == 123 || key == 124 || key == 13 || key == 1 || key == 36)
-	{
-		do_input(e, key);
-	}
-	return (key);
-}
-
-void	pixel_put(t_env *e, int x, int y, int color)
-{
-	unsigned int	new_color;
-
-	new_color = mlx_get_color_value(e->mlx, color);
-	e->data[y * e->sl + x * e->bpp / 8] = (new_color & 0xff);
-	e->data[y * e->sl + x * e->bpp / 8 + 1] = (new_color & 0xff00) >> 8;
-	e->data[y * e->sl + x * e->bpp / 8 + 2] = (new_color & 0xff0000) >> 16;
 }
 
 void	new_env(t_env *e)
@@ -85,31 +28,46 @@ void	new_env(t_env *e)
 	e->zoom = WIN_X / 4;
 	e->place_x = 0;
 	e->place_y = 0;
+	e->param = 0;
 }
 
 int		main(int ac, char **av)
 {
 	t_env	e;
-	int		x;
-	int		y;
 
-	y = 0;
-	x = 0;
-	if (ac != 2 || (ft_strcmp(av[1], "mandelbrot") != 0 &&
-				ft_strcmp(av[1], "julia") != 0))
+	if (ac != 2)
 	{
-		if (ac != 2)
-			ft_putstr("Usage : ./fractol <\e[32mFractal_name\e[0m>\n");
-		else
-			ft_putstr("//\tPlease put an existant fractal name\t\\\\\n");
+		ft_putstr("\nUsage: ./fractol <\e[32mFractal_name");
+		ft_putstr(" \e[0m/ \e[31mhelp\e[0m>\n\n");
+		return (0);
+	}
+	else if (ft_strcmp(av[1], "help") == 0)
+	{
+		help_display();
+		return (0);
+	}
+	else if (ft_strcmp("julia", av[1]) && ft_strcmp("mandelbrot", av[1]) &&
+			ft_strcmp("fisheye", av[1]) && ft_strcmp("burningship", av[1]))
+	{
+		ft_putendl("\n\n\e[31m/!\\\e[0m   Invalid fractal   \e[31m/!\\\e[0m\n");
 		return (0);
 	}
 	new_env(&e);
 	e.fractal = av[1];
 	mlx_key_hook(e.win, find_key, &e);
-	mlx_mouse_hook(e.win, button_pressed, &e);
+	mlx_hook(e.win, 1, (1 << 11), button_pressed, &e);
+	mlx_hook(e.win, 2, (1 << 11), button_pressed, &e);
+	mlx_hook(e.win, 4, (1 << 11), button_pressed, &e);
+	mlx_hook(e.win, 5, (1 << 12), button_pressed, &e);
 	mlx_hook(e.win, 6, (1L << 6), find_mouse, &e);
 	mlx_loop_hook(e.mlx, refresh, &e);
 	mlx_loop(e.mlx);
+	return (0);
+}
+
+int		button_pressed(int button, int x, int y, void *e)
+{
+	if (x >= 0 && y >= 0 && x <= WIN_X && y <= WIN_Y)
+		change_input(e, x, y, button);
 	return (0);
 }

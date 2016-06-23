@@ -6,37 +6,52 @@
 /*   By: telain <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/27 15:01:15 by telain            #+#    #+#             */
-/*   Updated: 2015/12/17 17:59:05 by telain           ###   ########.fr       */
+/*   Updated: 2016/06/23 17:41:37 by telain           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/libft.h"
 
-char	*ft_itoa(int n)
+static void		lengths(int n, size_t *len, int *weight)
 {
-	char	*new;
-	int		values[3];
+	*len = 1;
+	if (n >= 0)
+	{
+		*len = 0;
+		n = -n;
+	}
+	*weight = 1;
+	while (n / *weight < -9)
+	{
+		*weight *= 10;
+		*len += 1;
+	}
+}
 
-	values[0] = n;
-	values[1] = 0;
-	values[2] = 0;
-	if (n == -2147483648)
-		return (ft_strdup("-2147483648"));
+char			*ft_itoa(int n)
+{
+	size_t		len;
+	int			weight;
+	size_t		cur;
+	char		*str;
+
+	lengths(n, &len, &weight);
+	str = (char *)malloc(sizeof(*str) * (len + 1));
+	if (str == NULL)
+		return (NULL);
+	cur = 0;
 	if (n < 0)
 	{
-		values[1] = 1;
-		values[0] = -values[0];
-		values[2]++;
+		str[cur] = '-';
+		cur++;
 	}
-	while (n /= 10)
-		values[2]++;
-	if ((new = ft_strnew(values[2])) == NULL)
-		return (NULL);
-	while (values[2] >= values[1])
+	if (n > 0)
+		n = -n;
+	while (weight >= 1)
 	{
-		new[values[2]--] = (values[0] % 10) + 48;
-		values[0] /= 10;
+		str[cur++] = -(n / weight % 10) + 48;
+		weight /= 10;
 	}
-	new[0] = (values[1] == 1 ? '-' : new[0]);
-	return (new);
+	str[cur] = '\0';
+	return (str);
 }
