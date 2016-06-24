@@ -6,7 +6,7 @@
 /*   By: telain <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/18 14:54:55 by telain            #+#    #+#             */
-/*   Updated: 2016/06/23 23:18:11 by telain           ###   ########.fr       */
+/*   Updated: 2016/06/24 16:30:04 by telain           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 int		choose_color(double i, t_env *e)
 {
 	if (i < e->depth)
-		return (0x000020 + i * 0x000008);
-	return (0xffffff);
+		return (e->color_start + e->color_out * i);
+	return (e->color_in);
 }
 
 void	mandelbrot(int x, int y, t_env *e, int i)

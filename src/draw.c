@@ -1,16 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw_window.c                                      :+:      :+:    :+:   */
+/*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: telain <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/06/23 18:38:13 by telain            #+#    #+#             */
-/*   Updated: 2016/06/23 23:03:47 by telain           ###   ########.fr       */
+/*   Created: 2016/06/24 14:10:14 by telain            #+#    #+#             */
+/*   Updated: 2016/06/24 17:00:59 by telain           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fractol.h"
+
+void	choose_palette(t_env *e)
+{
+	if (e->palette == 1)
+	{
+		(e->palette == 1) ? e->color_in = 0x0000ff : 0;
+		(e->palette == 1) ? e->color_start = 0x000000 : 0;
+		(e->palette == 1) ? e->color_out = 0x000004 : 0;
+	}
+	else if (e->palette == 2)
+	{
+		(e->palette == 2) ? e->color_in = 0x00ff00 : 0;
+		(e->palette == 2) ? e->color_start = 0x000000 : 0;
+		(e->palette == 2) ? e->color_out = 0x000400 : 0;
+	}
+	else
+	{
+		e->color_in = (e->palette == 3) ? 0xff0000 : 0xffffff;
+		e->color_start = (e->palette == 3) ? 0x000000 : 0x000000;
+		e->color_out = (e->palette == 3) ? 0x040000 : 0x040404;
+	}
+}
 
 int		refresh(void *e)
 {
@@ -34,6 +56,7 @@ void	draw_window(t_env *e)
 		(f) = &fisheye;
 	else if (ft_strcmp(e->fractal, "burningship") == 0)
 		(f) = &burningship;
+	choose_palette(e);
 	while (++y < WIN_Y && f)
 	{
 		x = -1;
@@ -41,10 +64,8 @@ void	draw_window(t_env *e)
 			f(x, y, e, 0);
 	}
 	mlx_put_image_to_window(e->mlx, e->win, e->img, 0, 0);
-	mlx_string_put(e->mlx, e->win, 0, 2, 0xffffff, "Fractale\t\t: ");
-	mlx_string_put(e->mlx, e->win, 110, 2, 0xffffff, e->fractal);
-	mlx_string_put(e->mlx, e->win, 0, 17, 0xffffff, "Profondeur\t\t: ");
-	mlx_string_put(e->mlx, e->win, 125, 17, 0xffffff, ft_itoa(e->depth));
+	mlx_string_put(e->mlx, e->win, 0, 2, 0x808080, "Fractale\t\t: ");
+	mlx_string_put(e->mlx, e->win, 110, 2, 0x808080, e->fractal);
 }
 
 void	pixel_put(t_env *e, int x, int y, int color)

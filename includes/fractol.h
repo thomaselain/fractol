@@ -6,12 +6,20 @@
 /*   By: telain <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/19 17:37:02 by telain            #+#    #+#             */
-/*   Updated: 2016/06/23 23:01:53 by telain           ###   ########.fr       */
+/*   Updated: 2016/06/24 17:30:32 by telain           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACTOL_H
 # define FRACTOL_H
+
+# include "../includes/keys.h"
+# include "../includes/libft.h"
+# include <fcntl.h>
+# include <math.h>
+# include "mlx.h"
+# define WIN_X 800
+# define WIN_Y 600
 
 typedef struct	s_env
 {
@@ -34,46 +42,38 @@ typedef struct	s_env
 	double			param_r;
 	double			param_i;
 	int				param;
+	int				palette;
+	int				color_in;
+	int				color_out;
+	int				color_start;
 }				t_env;
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-
-# include <fcntl.h>
-# include "../includes/keys.h"
-# include <math.h>
-# include "../includes/libft.h"
-# include "mlx.h"
-# define WIN_X 800
-# define WIN_Y 600
-
 /*
- * draw.c
+** draw.c
 */
 
+void			choose_palette(t_env *e);
 int				refresh(void *e);
 void			draw_window(t_env *e);
 void			pixel_put(t_env *e, int x, int y, int color);
 
 /*
- *	fractal.c
+**	fractal.c
 */
 
-int				choose_color(double i,  t_env *e);
+int				choose_color(double i, t_env *e);
 void			mandelbrot(int x, int y, t_env *e, int i);
 void			julia(int x, int y, t_env *e, int i);
-void			burningship(int x, int y, t_env *e, int i);
 void			fisheye(int x, int y, t_env *e, int i);
+void			burningship(int x, int y, t_env *e, int i);
 
 /*
- *	help_display.c
+**	help_display.c
 */
 
 void			help_display(void);
 
 /*
- *	input.c
+**	input.c
 */
 
 void			choose_fractal(t_env *e);
@@ -82,9 +82,10 @@ void			change_input(t_env *e, int x, int y, int fct);
 int				find_key(int key, void *e);
 
 /*
- *	main.c
+**	main.c
 */
 
+int				parse_arg(int ac, char **av);
 int				find_mouse(int x, int y, void *e);
 void			new_env(t_env *e);
 int				button_pressed(int button, int x, int y, void *e);
