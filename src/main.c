@@ -6,7 +6,7 @@
 /*   By: telain <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/19 17:37:22 by telain            #+#    #+#             */
-/*   Updated: 2016/06/24 17:04:51 by telain           ###   ########.fr       */
+/*   Updated: 2016/06/30 18:35:55 by telain           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,13 @@ int		main(int ac, char **av)
 		return (0);
 	new_env(&e);
 	e.fractal = av[1];
-	mlx_key_hook(e.win, find_key, &e);
 	mlx_hook(e.win, 1, (1 << 11), button_pressed, &e);
 	mlx_hook(e.win, 2, (1 << 11), button_pressed, &e);
 	mlx_hook(e.win, 4, (1 << 11), button_pressed, &e);
 	mlx_hook(e.win, 5, (1 << 12), button_pressed, &e);
 	mlx_hook(e.win, 6, (1L << 6), find_mouse, &e);
+	mlx_hook(e.win, 2, 0, expose_find_key, &e);
+	mlx_key_hook(e.win, find_key, &e);
 	mlx_loop_hook(e.mlx, refresh, &e);
 	mlx_loop(e.mlx);
 	return (0);

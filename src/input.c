@@ -6,7 +6,7 @@
 /*   By: telain <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/01 17:05:10 by telain            #+#    #+#             */
-/*   Updated: 2016/06/24 16:36:42 by telain           ###   ########.fr       */
+/*   Updated: 2016/06/30 18:38:13 by telain           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	choose_fractal(t_env *e)
 
 void	do_input(t_env *e, int key)
 {
-	if (key == 53)
+	if (key == KEY_ESC)
 		exit(0);
 	if (key == KEY_C)
 		change_palette(e);
@@ -47,13 +47,13 @@ void	do_input(t_env *e, int key)
 		e->param = 1;
 	else if (key == KEY_P)
 		e->param = 0;
-	(key == 36) ? choose_fractal(e) : key;
-	(key == 123) ? e->place_x -= (double)WIN_X / e->zoom / 8 : key;
-	(key == 124) ? e->place_x += (double)WIN_X / e->zoom / 8 : key;
-	(key == 125) ? e->place_y += (double)WIN_Y / e->zoom / 8 : key;
-	(key == 126) ? e->place_y -= (double)WIN_Y / e->zoom / 8 : key;
-	(key == 69) ? e->depth++ : key;
-	(key == 78) ? e->depth-- : key;
+	(key == KEY_ENTER) ? choose_fractal(e) : key;
+	(key == KEY_LEFT) ? e->place_x -= (double)WIN_X / e->zoom / 8 : key;
+	(key == KEY_RIGHT) ? e->place_x += (double)WIN_X / e->zoom / 8 : key;
+	(key == KEY_DOWN) ? e->place_y += (double)WIN_Y / e->zoom / 8 : key;
+	(key == KEY_UP) ? e->place_y -= (double)WIN_Y / e->zoom / 8 : key;
+	(key == KEY_EQUAL) ? e->depth++ : key;
+	(key == KEY_MINUS) ? e->depth-- : key;
 }
 
 void	change_input(t_env *e, int x, int y, int fct)
@@ -81,11 +81,15 @@ void	change_input(t_env *e, int x, int y, int fct)
 
 int		find_key(int key, void *e)
 {
-	if (key == 53 || key == 125 || key == 126 || key == 69 || key == 78 ||
-			key == 123 || key == 124 || key == 13 || key == 1 || key == 36
-			|| key == KEY_P || key == KEY_C)
-	{
+	if (key == KEY_P || key == KEY_C || key == KEY_ENTER || key == KEY_ESC)
 		do_input(e, key);
-	}
+	return (key);
+}
+
+int		expose_find_key(int key, void *e)
+{
+	if (key == KEY_UP || key == KEY_LEFT || key == KEY_DOWN || key == KEY_RIGHT
+			|| key == KEY_MINUS || key == KEY_EQUAL)
+		do_input(e, key);
 	return (key);
 }

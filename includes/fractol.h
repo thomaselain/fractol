@@ -6,7 +6,7 @@
 /*   By: telain <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/19 17:37:02 by telain            #+#    #+#             */
-/*   Updated: 2016/06/24 17:30:32 by telain           ###   ########.fr       */
+/*   Updated: 2016/06/30 18:35:04 by telain           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void			choose_fractal(t_env *e);
 void			do_input(t_env *e, int key);
 void			change_input(t_env *e, int x, int y, int fct);
 int				find_key(int key, void *e);
+int				expose_find_key(int key, void *e);
 
 /*
 **	main.c
